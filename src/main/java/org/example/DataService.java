@@ -53,4 +53,18 @@ public class DataService {
             e.printStackTrace();
         }
     }
+
+    //Historia 4
+    public List<Pelicula> getPeliculasConBajaPuntuacion() {
+        List<Pelicula> listaPeliculas;
+        try (Session session = sessionFactory.openSession()) {
+            Query<Pelicula> q = session.createQuery(
+                    "select p from Pelicula p join p.opiniones o where avg(o.puntuacion) group by p.id <= 3", Pelicula.class);
+
+            listaPeliculas = q.list();
+        } catch (Exception e) {
+            listaPeliculas = new ArrayList<>(0);
+        }
+        return listaPeliculas;
+    }
 }
